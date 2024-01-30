@@ -55,9 +55,17 @@ int main() {
     int cash;
     int orderNumber = 1;
     int totalCashInDrawer = 0;
+    bool displayTotalCash = true;
 
     do {
-        cout << "\nMain Menu:\n";
+        cout << "Cash in Cashier: Php";
+        if (displayTotalCash) {
+            cout << totalCashInDrawer;
+        } else {
+            cout << "Hidden";
+        }
+        cout << "\n";
+        cout << "Main Menu:\n";
         cout << "1. Place Order\n";
         cout << "2. Settings\n";
         cout << "3. Exit\n";
@@ -97,21 +105,30 @@ int main() {
 
             } while (confirm == 'y' || confirm == 'Y');
 
-            cout << "Enter the cash amount: Php";
-            cin >> cash;
+            do {
+                cout << "Enter the cash amount: Php";
+                cin >> cash;
 
-            if (cash < totalAmount) {
-                cerr << "Insufficient cash. Exiting program.\n";
-                return 1;
-            }
+                if (cash < totalAmount) {
+                    cerr << "Insufficient cash. Please enter a correct amount.\n";
+                }
+
+            } while (cash < totalAmount);
 
             int change = cash - totalAmount;
             totalCashInDrawer += totalAmount;
 
             displayReceipt(orderNumber, order, totalAmount, cash, change);
 
-            cout << "Confirm to open the drawer? (y/n): ";
-            cin >> confirm;
+            do {
+                cout << "Confirm to open the drawer? (y/n): ";
+                cin >> confirm;
+
+                if (confirm != 'y' && confirm != 'Y' && confirm != 'n' && confirm != 'N') {
+                    cerr << "Invalid input. Please enter 'y' or 'n'.\n";
+                }
+
+            } while (confirm != 'y' && confirm != 'Y' && confirm != 'n' && confirm != 'N');
 
             if (confirm == 'y' || confirm == 'Y') {
                 cout << "Opening drawer...\n";
@@ -143,28 +160,22 @@ int main() {
         } else if (option == '2') {
             char settingOption;
 
-            cout << "\nSettings:\n";
-            cout << "1. Display Total Cash in Drawer\n";
-            cout << "X. Back to Main Menu\n";
+            do {
+                cout << "\nSettings:\n";
+                cout << "1. Toggle Display Total Cash in Drawer\n";
+                cout << "X. Back to Main Menu\n";
 
-            cout << "Enter your choice (1 or X): ";
-            cin >> settingOption;
+                cout << "Enter your choice (1 or X): ";
+                cin >> settingOption;
+
+                if (settingOption != '1' && settingOption != 'X' && settingOption != 'x') {
+                    cerr << "Invalid option. Please enter '1' or 'X'.\n";
+                }
+
+            } while (settingOption != '1' && settingOption != 'X' && settingOption != 'x');
 
             if (settingOption == '1') {
-                cout << "Cash in Drawer.\n";
-                cout << "Total Amount in Drawer - Php" << totalCashInDrawer << "\n";
-                cout << "Press X to back to Main Menu\n";
-
-                char backToMainMenu;
-                cin >> backToMainMenu;
-
-                if (backToMainMenu == 'X' || backToMainMenu == 'x') {
-                    // Continue to the next iteration of the loop
-                } else {
-                    cerr << "Invalid option. Returning to Main Menu.\n";
-                }
-            } else {
-                cerr << "Invalid option. Returning to Main Menu.\n";
+                displayTotalCash = !displayTotalCash;
             }
         } else if (option == '3') {
             cout << "Exiting program...\n";

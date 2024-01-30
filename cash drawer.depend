@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1706584860 source:d:\c++\1-30-24 cash drawer\cash drawer\main.cpp
+1706585763 source:d:\c++\1-30-24 cash drawer\cash drawer\main.cpp
 	<iostream>
-	<vector>
 	<fstream>
 	<thread>
 	<chrono>
+	<vector>
 
